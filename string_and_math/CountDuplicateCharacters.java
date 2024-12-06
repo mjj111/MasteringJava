@@ -2,7 +2,7 @@ package string_and_math;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// 중복되지 않은 첫 번째 문자를 반환한다.
+// 문자열에서 문자 수를 반환
 class CountDuplicateCharacters {
 
     public static void main(String[] args) {
