@@ -1,12 +1,16 @@
 package src.test;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import src.main.string_and_math.CountDuplicateCharacters;
 
 import java.util.Map;
 
-public class CountDuplicateCharactersTest {
+public class CountDuplicateCharactersTest extends ExecutionTimeTracker {
+
+    private final CountDuplicateCharacters testClass = new CountDuplicateCharacters();
 
     private final String GVIEN_INPUT = "asdqbaa";
     private final Map<Character, Long> EXPECTED_RESULT = Map.of('a',3L,
@@ -14,8 +18,6 @@ public class CountDuplicateCharactersTest {
                                                                     'd',1L,
                                                                     'q',1L,
                                                                     'b',1L);
-
-    private final CountDuplicateCharacters testClass = new CountDuplicateCharacters();
 
     @Test
     void v1() {
