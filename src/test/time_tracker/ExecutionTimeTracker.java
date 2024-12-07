@@ -1,4 +1,4 @@
-package src.test;
+package src.test.time_tracker;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

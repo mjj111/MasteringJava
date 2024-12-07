@@ -1,10 +1,9 @@
 package src.test;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import src.main.string_and_math.CountDuplicateCharacters;
+import src.test.time_tracker.ExecutionTimeTracker;
 
 import java.util.Map;
 
