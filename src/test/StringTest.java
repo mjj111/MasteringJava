@@ -86,4 +86,12 @@ public class StringTest extends AutoTester {
         testMethods(CheckPalindrome.class, RIGHT_INPUT, true);
         testMethods(CheckPalindrome.class, WRONG_INPUT, false);
     }
+
+    @Test
+    public void 문자열에서_중복문자_제거() {
+        var RIGHT_INPUT = "1221";
+        var EXPECTED_OUTPUT = "12";
+
+        testMethods(DeleteDuplicateChars.class, RIGHT_INPUT, EXPECTED_OUTPUT);
+    }
 }
