@@ -36,5 +36,6 @@ public class JoinByDelimiter {
 
         return joiner.toString();
     }
+
     public record Dto(char delimiter, String... strs) {}
 }
