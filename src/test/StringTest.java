@@ -77,4 +77,13 @@ public class StringTest extends AutoTester {
 
         testMethods(GeneratePermutations.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
+
+    @Test
+    public void 팰린드롬_확인() {
+        var RIGHT_INPUT = "121";
+        var WRONG_INPUT = "12131";
+
+        testMethods(CheckPalindrome.class, RIGHT_INPUT, true);
+        testMethods(CheckPalindrome.class, WRONG_INPUT, false);
+    }
 }
