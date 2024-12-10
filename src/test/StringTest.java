@@ -60,4 +60,12 @@ public class StringTest extends AutoTester {
 
         testMethods(ReverseWords.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
+
+    @Test
+    public void 구분자로_여러_문자열_합치기() {
+        var GIVEN_INPUT = new JoinByDelimiter.Dto( '!', "하하", "반갑소만", "자바 다시 공부하는건 정말 재밌닷.");
+        var EXPECTED_OUTPUT = "하하!반갑소만!자바 다시 공부하는건 정말 재밌닷.";
+
+        testMethods(JoinByDelimiter.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
 }
