@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import src.main.string_and_math.*;
 import src.test.auto_tester.AutoTester;
 
+import java.util.List;
 import java.util.Map;
 
 public class StringTest extends AutoTester {
@@ -67,5 +68,13 @@ public class StringTest extends AutoTester {
         var EXPECTED_OUTPUT = "하하!반갑소만!자바 다시 공부하는건 정말 재밌닷.";
 
         testMethods(JoinByDelimiter.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 순열_만들기() {
+        var GIVEN_INPUT = "반가워";
+        var EXPECTED_OUTPUT = List.of("반가워", "반워가", "가반워", "가워반", "워반가", "워가반");
+
+        testMethods(GeneratePermutations.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
 }

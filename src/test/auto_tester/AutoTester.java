@@ -14,7 +14,7 @@ public class AutoTester {
             Object instance = clazz.getDeclaredConstructor().newInstance();
 
             for (Method method : clazz.getDeclaredMethods()) {
-                if (method.getName().contains("lambda")) continue;
+                if (isUnintended(method)) continue;
 
                 System.out.print(method.getName() + " ");
                 tracker.trackExecutionTime(() -> {
@@ -27,5 +27,12 @@ public class AutoTester {
             e.printStackTrace();
             throw new RuntimeException("Test Failed: " + clazz.getSimpleName());
         }
+    }
+
+    private static boolean isUnintended(Method method) {
+        if (method.getName().contains("lambda") || java.lang.reflect.Modifier.isPrivate(method.getModifiers())) {
+            return true;
+        }
+        return false;
     }
 }
