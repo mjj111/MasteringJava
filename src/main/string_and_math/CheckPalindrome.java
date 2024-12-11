@@ -39,7 +39,6 @@ public class CheckPalindrome {
     }
 
     public boolean v4(String str) {
-        System.out.println(1);
         return IntStream.range(0, str.length() / 2)
                 .noneMatch(p -> str.charAt(p) != str.charAt(str.length() - p - 1));
     }
