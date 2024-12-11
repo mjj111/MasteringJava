@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+//null이_아닌_짝수들의_합
 public class EvenIntegers {
 
     public List<Integer> v1(List<Integer> numbers) {
