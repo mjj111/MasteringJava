@@ -94,4 +94,27 @@ public class StringTest extends AutoTester {
 
         testMethods(DeleteDuplicateChars.class, RIGHT_INPUT, EXPECTED_OUTPUT);
     }
+
+    @Test
+    public void 문자열에서_문자_제거() {
+        var RIGHT_INPUT = new RemoveCharacter.Dto("12322",'3');
+        var EXPECTED_OUTPUT = "1222";
+
+        testMethods(RemoveCharacter.class, RIGHT_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 문자열에서_가장_자주_등장한_문자_찾기() {
+        var RIGHT_INPUT = "11231425";
+        var EXPECTED_OUTPUT = '1';
+
+        testMethods(FindMostAppearances.class, RIGHT_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 문자열_길이_기준으로_오름차순_정렬() {
+        var RIGHT_INPUT = new String[]{"11","1245125111","123","1245125","12"};
+        var EXPECTED_OUTPUT = new String[]{"11", "12", "123", "1245125","1245125111"};
+        testMethods(SortArrayByLength.class, RIGHT_INPUT, EXPECTED_OUTPUT);
+    }
 }
