@@ -1,20 +1,27 @@
 package src.test.auto_tester;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import src.test.auto_tester.startegy.ArrayValidator;
+import src.test.auto_tester.startegy.ExceptionValidator;
+import src.test.auto_tester.startegy.GeneralValidator;
+import src.test.auto_tester.startegy.Validator;
+
+import java.lang.reflect.Method;
 
 public class ResultValidator {
 
-    public <T, R> void check(T input, R expectedOutput, Method method, Object instance) throws IllegalAccessException, InvocationTargetException {
-        var result = method.invoke(instance, input);
+    public <T, R> void check(T input, R expectedOutput, Method method, Object instance) throws Exception {
+        Validator<T, R> strategy = selectStrategy(expectedOutput);
+        strategy.validate(input, expectedOutput, method, instance);
+    }
 
-        if (result instanceof Object[]) {
-            assertArrayEquals((Object[]) result, (Object[]) expectedOutput);
-        }else {
-            assertEquals(expectedOutput, result);
+    private <T, R> Validator<T, R> selectStrategy(R expectedOutput) {
+        if (expectedOutput instanceof Class<?> && Throwable.class.isAssignableFrom((Class<?>) expectedOutput)) {
+            return (Validator<T, R>) new ExceptionValidator<>();
+        } else if (expectedOutput instanceof Object[]) {
+            return new ArrayValidator<>();
+        } else {
+            return new GeneralValidator<>();
         }
     }
 }
