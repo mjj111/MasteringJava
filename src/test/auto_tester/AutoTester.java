@@ -2,12 +2,10 @@ package src.test.auto_tester;
 
 import java.lang.reflect.Method;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-
 public class AutoTester {
 
     private final ExecutionTimeTracker tracker = new ExecutionTimeTracker();
+    private final ResultValidator validator = new ResultValidator();
 
     public <T, R> void testMethods(Class<?> clazz, T input, R expectedOutput) {
         try {
@@ -18,11 +16,9 @@ public class AutoTester {
 
                 System.out.print(method.getName() + " ");
                 tracker.trackExecutionTime(() -> {
-                    var result = method.invoke(instance, input);
-                    assertEquals(expectedOutput, result);
+                    validator.check(input, expectedOutput, method, instance);
                 });
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Test Failed: " + clazz.getSimpleName());
