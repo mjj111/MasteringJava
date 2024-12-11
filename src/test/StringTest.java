@@ -117,4 +117,12 @@ public class StringTest extends AutoTester {
         var EXPECTED_OUTPUT = new String[]{"11", "12", "123", "1245125","1245125111"};
         testMethods(SortArrayByLength.class, RIGHT_INPUT, EXPECTED_OUTPUT);
     }
+
+    @Test
+    public void 문자열에서_문자열_등장_횟수() {
+        var RIGHT_INPUT = new CountingStringInString.Dto("만나서 반갑습니다. 저는 김명준입니다.", "니다");
+        var EXPECTED_OUTPUT = 2;
+
+        testMethods(CountingStringInString.class, RIGHT_INPUT, EXPECTED_OUTPUT);
+    }
 }
