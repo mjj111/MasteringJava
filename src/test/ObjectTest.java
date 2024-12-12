@@ -5,6 +5,7 @@ import src.main.object_and_immutability.*;
 import src.test.auto_tester.AutoTester;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ObjectTest extends AutoTester {
 
@@ -47,6 +48,22 @@ public class ObjectTest extends AutoTester {
         var EXPECTED_OUTPUT = NullPointerException.class;
 
         testMethods(ThrowNullException.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 인덱스_범위_확인_및_예외_던지기() {
+        var GIVEN_INPUT = -1;
+        var EXPECTED_OUTPUT = IndexOutOfBoundsException.class;
+
+        testMethods(CheckIndexOutOfRange.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void Equals와_HashCode_오버라이딩_및_동등성_확인() {
+        var GIVEN_INPUT = List.of(new EqualsAndHashCode.Player(1,"김명준"), new EqualsAndHashCode.Player(1, "김형준"));
+        var EXPECTED_OUTPUT = true;
+
+        testMethods(EqualsAndHashCode.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
 
 }
