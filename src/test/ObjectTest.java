@@ -66,4 +66,12 @@ public class ObjectTest extends AutoTester {
         testMethods(EqualsAndHashCode.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
 
+    @Test
+    public void 객체_깊은_복사() {
+        var GIVEN_INPUT = new CloningObject.DeepCopyClass("김명준");
+        var EXPECTED_OUTPUT = new CloningObject.DeepCopyClass("김명준");
+
+        testMethods(CloningObject.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
 }
