@@ -1,6 +1,6 @@
 package src.main.object_and_immutability;
 
-
+//객체복사
 public class CloningObject {
 
     public DeepCopyClass v1 (DeepCopyClass input) {
