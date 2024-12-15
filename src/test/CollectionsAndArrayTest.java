@@ -1,11 +1,10 @@
 package src.test;
 
 import org.junit.jupiter.api.Test;
-import src.main.collections_and_arrays.AverageArray;
-import src.main.collections_and_arrays.FindingAnElementInArray;
-import src.main.collections_and_arrays.MaxArray;
-import src.main.collections_and_arrays.ReverseArray;
+import src.main.collections_and_arrays.*;
 import src.test.auto_tester.AutoTester;
+
+import java.util.List;
 
 public class CollectionsAndArrayTest extends AutoTester {
 
@@ -45,5 +44,13 @@ public class CollectionsAndArrayTest extends AutoTester {
         var EXPECTED_OUTPUT = new Integer[]{5,4,3,2,1};
 
         testMethods(ReverseArray.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 프레디케이트와_일치하는_컬렉션_내_원소_삭제(){
+        var GIVEN_INPUT = new RemoveByPredicate.Dto(List.of(1L,2L,300L,300L), 300L);
+        var EXPECTED_RESULT = List.of(1L, 2L);
+
+        testMethods(RemoveByPredicate.class, GIVEN_INPUT, EXPECTED_RESULT);
     }
 }
