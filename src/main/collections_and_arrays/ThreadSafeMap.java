@@ -2,6 +2,7 @@ package src.main.collections_and_arrays;
 
 import java.util.Iterator;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
 /**
@@ -40,16 +41,18 @@ public class ThreadSafeMap {
 
     private static final Logger logger = Logger.getLogger(ThreadSafeMap.class.getName());
 
-    // ConcurrentMap은 스레드 안전한 키-값 저장소로, 동시성 작업에서 안정적.
     private static final ConcurrentMap<Integer, Integer> map = new ConcurrentHashMap<>();
 
     private static final Producer producer = new Producer();
     private static final Consumer consumer = new Consumer();
+
     private static final ExecutorService producerService = Executors.newSingleThreadExecutor();
     private static final ExecutorService consumerService = Executors.newSingleThreadExecutor();
 
-    private static class Producer implements Runnable {
+    // 종료 신호를 위한 AtomicBoolean
+    private static final AtomicBoolean running = new AtomicBoolean(true);
 
+    private static class Producer implements Runnable {
         @Override
         public void run() {
             for (int i = 0; i < 20; i++) { // 20개의 항목만 생성
@@ -63,19 +66,20 @@ public class ThreadSafeMap {
                     Thread.currentThread().interrupt();
                 }
             }
+            running.set(false); // 생산 종료 후 종료 신호 설정
         }
     }
 
     private static class Consumer implements Runnable {
-
         @Override
         public void run() {
-            while (true) {
+            while (running.get() || !map.isEmpty()) { // 종료 신호와 맵 상태를 확인
                 Iterator<Integer> iterator = map.keySet().iterator();
                 while (iterator.hasNext()) {
                     Integer item = iterator.next();
                     logger.info(() -> "Consumed: " + item
                             + " by " + Thread.currentThread().getName());
+                    iterator.remove(); // 항목 제거
                 }
                 try {
                     Thread.sleep(500); // 소비 간 대기
@@ -87,11 +91,9 @@ public class ThreadSafeMap {
     }
 
     public static void main(String[] args) throws InterruptedException {
-
         System.setProperty("java.util.logging.SimpleFormatter.format",
                 "[%1$tT] [%4$-7s] %5$s %n");
 
-        // 생산자와 소비자 스레드 실행
         producerService.execute(producer);
         consumerService.execute(consumer);
 
@@ -102,7 +104,7 @@ public class ThreadSafeMap {
             logger.warning("Some producer threads did not finish in time");
         }
 
-        consumerService.shutdownNow();
+        consumerService.shutdown();
         if (consumerService.awaitTermination(10, TimeUnit.SECONDS)) {
             logger.info("All the consumer threads have ended successfully");
         } else {
