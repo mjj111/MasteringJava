@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
 /**
@@ -41,7 +43,6 @@ public class ThreadSafeSet {
 
     private static final Logger logger = Logger.getLogger(ThreadSafeSet.class.getName());
 
-    // CopyOnWriteArraySet은 스레드 안전한 Set으로, 동시성 작업에서 안정적.
     private static final Set<Integer> set = new CopyOnWriteArraySet<>();
 
     private static final Producer producer = new Producer();
@@ -49,57 +50,70 @@ public class ThreadSafeSet {
     private static final ExecutorService producerService = Executors.newSingleThreadExecutor();
     private static final ExecutorService consumerService = Executors.newSingleThreadExecutor();
 
-    private static class Producer implements Runnable {
+    // 종료 신호를 관리하는 AtomicBoolean
+    private static final AtomicBoolean running = new AtomicBoolean(true);
 
+    private static class Producer implements Runnable {
         @Override
         public void run() {
-            while (true) {
-                int item = (int) (Math.random() * 1000); // 무작위 숫자 생성.
-                set.add(item); // Set에 항목 추가.
-                logger.info(() -> "Produced: " + item + " by " + Thread.currentThread().getName());
-                try {
+            try {
+                while (running.get()) {
+                    int item = (int) (Math.random() * 1000); // 무작위 숫자 생성.
+                    set.add(item); // Set에 항목 추가.
+                    logger.info(() -> "Produced: " + item + " by " + Thread.currentThread().getName());
                     Thread.sleep(100); // 생산 간 짧은 대기.
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
                 }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                logger.info("Producer interrupted");
             }
         }
     }
 
     private static class Consumer implements Runnable {
-
         @Override
         public void run() {
-            while (true) {
-                Iterator<Integer> iterator = set.iterator(); // 안전한 반복자 생성.
-                while (iterator.hasNext()) {
-                    Integer item = iterator.next();
-                    logger.info(() -> "Consumed: " + item + " by " + Thread.currentThread().getName());
-                }
-                try {
+            try {
+                while (running.get() || !set.isEmpty()) {
+                    Iterator<Integer> iterator = set.iterator(); // 안전한 반복자 생성.
+                    while (iterator.hasNext()) {
+                        Integer item = iterator.next();
+                        logger.info(() -> "Consumed: " + item + " by " + Thread.currentThread().getName());
+                    }
                     Thread.sleep(500); // 소비 간 대기.
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
                 }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                logger.info("Consumer interrupted");
             }
         }
     }
 
     public static void main(String[] args) throws InterruptedException {
-
-        // 로그 출력 형식을 간단히 설정.
         System.setProperty("java.util.logging.SimpleFormatter.format",
                 "[%1$tT] [%4$-7s] %5$s %n");
 
-        // 생산자와 소비자 스레드 실행.
         producerService.execute(producer);
         consumerService.execute(consumer);
 
-        // 10초 후 프로그램 종료.
-        Thread.sleep(10000);
+        // 1초 동안 실행 후 종료 신호 설정.
+        Thread.sleep(1000);
+        running.set(false);
 
         producerService.shutdownNow();
         consumerService.shutdownNow();
+
+        if (producerService.awaitTermination(5, TimeUnit.SECONDS)) {
+            logger.info("Producer thread terminated");
+        } else {
+            logger.warning("Producer thread did not terminate in time");
+        }
+
+        if (consumerService.awaitTermination(5, TimeUnit.SECONDS)) {
+            logger.info("Consumer thread terminated");
+        } else {
+            logger.warning("Consumer thread did not terminate in time");
+        }
 
         logger.info("Application has terminated successfully.");
     }
