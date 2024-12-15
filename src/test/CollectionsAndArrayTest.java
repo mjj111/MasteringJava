@@ -1,7 +1,9 @@
 package src.test;
 
 import org.junit.jupiter.api.Test;
+import src.main.collections_and_arrays.AverageArrays;
 import src.main.collections_and_arrays.FindingAnElementInArray;
+import src.main.collections_and_arrays.MaxArrays;
 import src.test.auto_tester.AutoTester;
 
 public class CollectionsAndArrayTest extends AutoTester {
@@ -18,5 +20,21 @@ public class CollectionsAndArrayTest extends AutoTester {
         var EXPECTED_OUTPUT = true;
 
         testMethods(FindingAnElementInArray.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 배열의_평균값_계산(){
+        var GIVEN_INPUT = new int[]{1,2,3,4,5};
+        var EXPECTED_OUTPUT = 3D;
+
+        testMethods(AverageArrays.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 배열의_최대값_계산(){
+        var GIVEN_INPUT = new int[]{1,2,3,4,5};
+        var EXPECTED_OUTPUT = 5;
+
+        testMethods(MaxArrays.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
 }
