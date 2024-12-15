@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import src.main.collections_and_arrays.AverageArray;
 import src.main.collections_and_arrays.FindingAnElementInArray;
 import src.main.collections_and_arrays.MaxArray;
+import src.main.collections_and_arrays.ReverseArray;
 import src.test.auto_tester.AutoTester;
 
 public class CollectionsAndArrayTest extends AutoTester {
@@ -36,5 +37,13 @@ public class CollectionsAndArrayTest extends AutoTester {
         var EXPECTED_OUTPUT = 5;
 
         testMethods(MaxArray.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 배열_뒤집기(){
+        var GIVEN_INPUT = new Integer[]{1,2,3,4,5};
+        var EXPECTED_OUTPUT = new Integer[]{5,4,3,2,1};
+
+        testMethods(ReverseArray.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
 }
