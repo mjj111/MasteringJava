@@ -100,8 +100,8 @@ public class ThreadSafeQueue {
             consumerService.execute(consumer);
         }
 
-        // 프로그램 10초 동안 실행 후 종료.
-        Thread.sleep(10000);
+        // 프로그램 1초 동안 실행 후 종료.
+        Thread.sleep( 1000);
 
         producerService.shutdownNow();
         consumerService.shutdownNow();
