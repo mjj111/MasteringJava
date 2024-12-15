@@ -3,7 +3,7 @@ package src.main.collections_and_arrays;
 import java.util.Arrays;
 
 //배열의 평균값 계산
-public class AverageArrays {
+public class AverageArray {
 
     public double v1(int[] arr) {
         double sum = 0;

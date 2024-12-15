@@ -3,7 +3,7 @@ package src.main.collections_and_arrays;
 import java.util.Arrays;
 
 //배열에서 최대값 계산
-public class MaxArrays {
+public class MaxArray {
     public int v1(int[] arr) {
         int max = arr[0];
 

@@ -1,9 +1,9 @@
 package src.test;
 
 import org.junit.jupiter.api.Test;
-import src.main.collections_and_arrays.AverageArrays;
+import src.main.collections_and_arrays.AverageArray;
 import src.main.collections_and_arrays.FindingAnElementInArray;
-import src.main.collections_and_arrays.MaxArrays;
+import src.main.collections_and_arrays.MaxArray;
 import src.test.auto_tester.AutoTester;
 
 public class CollectionsAndArrayTest extends AutoTester {
@@ -27,7 +27,7 @@ public class CollectionsAndArrayTest extends AutoTester {
         var GIVEN_INPUT = new int[]{1,2,3,4,5};
         var EXPECTED_OUTPUT = 3D;
 
-        testMethods(AverageArrays.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+        testMethods(AverageArray.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
 
     @Test
@@ -35,6 +35,6 @@ public class CollectionsAndArrayTest extends AutoTester {
         var GIVEN_INPUT = new int[]{1,2,3,4,5};
         var EXPECTED_OUTPUT = 5;
 
-        testMethods(MaxArrays.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+        testMethods(MaxArray.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
 }
