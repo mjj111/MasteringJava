@@ -3,6 +3,7 @@ package src.main.reflection;
 import java.lang.reflect.Constructor;
 import java.util.Optional;
 
+//생성자 조회 후, 인스턴스 생성
 public class InstancingViaConstructor {
 
     public TestClass instancing(Optional<Dto> dto) {
