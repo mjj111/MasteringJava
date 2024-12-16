@@ -13,7 +13,6 @@ public class FindByAnnotation {
     public Class<?> find(Class<? extends Annotation> annotation) {
         String packageToScan = this.getClass().getPackageName();
 
-        // ClassFilter를 명확하게 사용
         return ReflectionUtils.findAllClassesInPackage(packageToScan,
                 ClassFilter.of(clazz -> clazz.isAnnotationPresent(annotation))
         ).get(0);
