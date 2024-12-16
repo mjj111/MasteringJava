@@ -1,6 +1,7 @@
 package src.test;
 
 import org.junit.jupiter.api.Test;
+import src.main.reflection.FindByAnnotation;
 import src.main.reflection.InspectingPackages;
 import src.main.reflection.InstancingViaConstructor;
 import src.test.auto_tester.AutoTester;
@@ -30,6 +31,14 @@ public class ReflectionTest extends AutoTester {
         var EXPECTED_OUTPUT = new InstancingViaConstructor.TestClass(2, "DEFAULT");
 
         testMethods(InstancingViaConstructor.class, GIVEN_INPUT, EXPECTED_OUTPUT);
+    }
+
+    @Test
+    public void 애너테이션_기반_클래스_조회() {
+        var GIVEN_INPUT =FindByAnnotation.ToFind.class;
+        var EXPECTED_OUTPUT = FindByAnnotation.TestClass.class;
+
+        testMethods(FindByAnnotation.class, GIVEN_INPUT, EXPECTED_OUTPUT);
     }
 
 }
