@@ -3,10 +3,10 @@ package src.test;
 import org.junit.jupiter.api.Test;
 import src.main.functional_programming.*;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
-
+import src.main.functional_programming.GroupingStream.Melon;
+import src.main.functional_programming.GroupingStream.Sugar;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FunctionalProgrammingTest {
@@ -104,5 +104,74 @@ public class FunctionalProgrammingTest {
         var result = JoiningResults.joinDistinctNumberString(GIVEN_INPUT);
 
         assertEquals(EXPECTED_INPUT, result);
+    }
+
+    @Test
+    public void 타입에_따른_그룹화_리스트() {
+        List<Melon> givenInput = Arrays.asList(
+                new GroupingStream.Melon("Crenshaw", 1200, GroupingStream.Sugar.HIGH),
+                new Melon("Gac", 3000, Sugar.LOW),
+                new Melon("Hemi", 2600, Sugar.HIGH),
+                new Melon("Hemi", 1600),
+                new Melon("Gac", 1200, Sugar.LOW)
+        );
+
+        Map<String, List<Melon>> result = GroupingStream.byTypeList(givenInput);
+
+        assertEquals(2, result.get("Gac").size());
+        assertEquals(2, result.get("Hemi").size());
+        assertEquals(1, result.get("Crenshaw").size());
+    }
+
+    @Test
+    public void 무게에_따른_그룹화_리스트() {
+        List<Melon> givenInput = Arrays.asList(
+                new Melon("Gac", 3000, Sugar.LOW),
+                new Melon("Crenshaw", 1200, Sugar.HIGH),
+                new Melon("Apollo", 2600, Sugar.MEDIUM),
+                new Melon("Horned", 1200, Sugar.HIGH)
+        );
+
+        Map<Integer, List<Melon>> result = GroupingStream.byWeightInList(givenInput);
+
+        assertEquals(2, result.get(1200).size());
+        assertEquals(1, result.get(3000).size());
+        assertEquals(1, result.get(2600).size());
+    }
+
+    @Test
+    public void 타입에_따른_그룹화_셋() {
+        List<Melon> givenInput = Arrays.asList(
+                new Melon("Hemi", 2600, Sugar.HIGH),
+                new Melon("Hemi", 2600, Sugar.HIGH), // Duplicate
+                new Melon("Gac", 1200, Sugar.LOW),
+                new Melon("Cantaloupe", 3600, Sugar.MEDIUM)
+        );
+
+        Map<String, Set<Melon>> result = GroupingStream.byTypeInSet(givenInput);
+
+        assertEquals(1, result.get("Hemi").size()); // Set removes duplicates
+        assertEquals(1, result.get("Gac").size());
+        assertEquals(1, result.get("Cantaloupe").size());
+    }
+
+    @Test
+    public void 설탕과_무게에_따른_그룹화_맵() {
+        List<Melon> givenInput = Arrays.asList(
+                new Melon("Apollo", 2600, Sugar.MEDIUM),
+                new Melon("Gac", 3000, Sugar.LOW),
+                new Melon("Hemi", 1600, Sugar.HIGH),
+                new Melon("Cantaloupe", 2600, Sugar.MEDIUM),
+                new Melon("Gac", 1200, Sugar.LOW)
+        );
+
+        Map<Sugar, TreeMap<Integer, Set<String>>> result = GroupingStream.bySugarAndWeight(givenInput);
+
+        assertTrue(result.containsKey(Sugar.LOW));
+        assertTrue(result.containsKey(Sugar.MEDIUM));
+        assertTrue(result.containsKey(Sugar.HIGH));
+
+        assertEquals(Set.of("Gac"), result.get(Sugar.LOW).get(1200));
+        assertEquals(Set.of("Apollo", "Cantaloupe"), result.get(Sugar.MEDIUM).get(2600));
     }
 }
