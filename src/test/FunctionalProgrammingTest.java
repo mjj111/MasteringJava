@@ -95,4 +95,14 @@ public class FunctionalProgrammingTest {
 
         assertEquals("Appollo1", result);
     }
+
+    @Test
+    public void 유일한_숫자만을_모아서_하나의_String으로_반환(){
+        var GIVEN_INPUT = List.of("3", "4", "1", "1", "2", "2");
+        var EXPECTED_INPUT = "1,2,3,4";
+
+        var result = JoiningResults.joinDistinctNumberString(GIVEN_INPUT);
+
+        assertEquals(EXPECTED_INPUT, result);
+    }
 }
