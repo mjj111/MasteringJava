@@ -174,4 +174,65 @@ public class FunctionalProgrammingTest {
         assertEquals(Set.of("Gac"), result.get(Sugar.LOW).get(1200));
         assertEquals(Set.of("Apollo", "Cantaloupe"), result.get(Sugar.MEDIUM).get(2600));
     }
+    @Test
+    public void 무게별로_파티셔닝하여_리스트_반환() {
+        List<Melon> GIVEN_INPUT = Arrays.asList(
+                new Melon("Crenshaw", 1200),
+                new Melon("Gac", 3000),
+                new Melon("Apollo", 2600),
+                new Melon("Horned", 1700)
+        );
+
+        Map<Boolean, List<Melon>> result = Partitioning.partitionByWeight(GIVEN_INPUT, 2000);
+
+        assertEquals(2, result.get(true).size());
+        assertEquals(2, result.get(false).size());
+    }
+
+    @Test
+    public void 무게별로_파티셔닝하여_셋_반환() {
+        List<Melon> GIVEN_INPUT = Arrays.asList(
+                new Melon("Crenshaw", 1200),
+                new Melon("Gac", 3000),
+                new Melon("Apollo", 2600),
+                new Melon("Horned", 1700),
+                new Melon("Apollo", 2600) // Duplicate
+        );
+
+        Map<Boolean, Set<Melon>> result = Partitioning.partitionByWeightToSet(GIVEN_INPUT, 2000);
+
+        assertEquals(2, result.get(true).size());
+        assertEquals(2, result.get(false).size());
+    }
+
+    @Test
+    public void 무게별로_파티셔닝하여_개수별로_맵_반환() {
+        List<Melon> GIVEN_INPUT = Arrays.asList(
+                new Melon("Crenshaw", 1200),
+                new Melon("Gac", 3000),
+                new Melon("Apollo", 2600),
+                new Melon("Apollo", 2600),
+                new Melon("Horned", 1700)
+        );
+
+        Map<Boolean, Long> result = Partitioning.partitionByWeightAndCount(GIVEN_INPUT, 2000);
+
+        assertEquals(3L, result.get(true));
+        assertEquals(2L, result.get(false));
+    }
+
+    @Test
+    public void 무게별로_파티셔닝하고_최대무게_반환() {
+        List<Melon> GIVEN_INPUT = Arrays.asList(
+                new Melon("Crenshaw", 1200),
+                new Melon("Gac", 3000),
+                new Melon("Apollo", 2600),
+                new Melon("Horned", 1700)
+        );
+
+        Map<Boolean, Melon> result = Partitioning.partitionByWeightAndMax(GIVEN_INPUT, 2000);
+
+        assertEquals(new Melon("Gac", 3000), result.get(true));
+        assertEquals(new Melon("Horned", 1700), result.get(false));
+    }
 }
